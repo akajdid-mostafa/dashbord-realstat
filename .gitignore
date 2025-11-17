@@ -26,7 +26,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.local
 .env*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # vercel
 .vercel
@@ -34,3 +39,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sensitive information
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+*.secret
+config/secrets.json
+*.log
+
+# API keys and credentials
+**/credentials.json
+**/service-account*.json
+**/firebase*.json
+
+# database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
