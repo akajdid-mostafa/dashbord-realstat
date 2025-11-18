@@ -93,13 +93,13 @@ function Page() {
                 
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Post ID:</strong> {item.id}
                     </Typography>
                   </Grid>
                   
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Status:</strong> 
                       <Box
                         component="span"
@@ -123,38 +123,38 @@ function Page() {
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Price:</strong> {item.prix ? `${item.prix.toLocaleString()} MAD` : 'N/A'}
                     </Typography>
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Address:</strong> {item.adress || 'N/A'}
                     </Typography>
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>City:</strong> {item.ville || 'N/A'}
                     </Typography>
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Category:</strong> {item.category?.name || 'N/A'}
                     </Typography>
                   </Grid>
 
                   <Grid item xs={12} md={6}>
-                    <Typography variant="body1">
+                    <Typography variant="body1" component="div">
                       <strong>Type:</strong> {item.type?.type || 'N/A'}
                     </Typography>
                   </Grid>
 
                   {(item.lat && item.lon) && (
                     <Grid item xs={12} md={6}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" component="div">
                         <strong>Location:</strong> {item.lat.toFixed(6)}, {item.lon.toFixed(6)}
                       </Typography>
                     </Grid>
@@ -162,7 +162,7 @@ function Page() {
 
                   {item.youtub && (
                     <Grid item xs={12}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" component="div">
                         <strong>YouTube:</strong>{' '}
                         <Link 
                           href={item.youtub} 
@@ -178,7 +178,7 @@ function Page() {
 
                   {item.comment && (
                     <Grid item xs={12}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" component="div">
                         <strong>Comment:</strong> {item.comment}
                       </Typography>
                     </Grid>
@@ -186,7 +186,7 @@ function Page() {
 
                   {item.datePost && (
                     <Grid item xs={12} md={6}>
-                      <Typography variant="body1">
+                      <Typography variant="body1" component="div">
                         <strong>Date Posted:</strong> {new Date(item.datePost).toLocaleDateString()}
                       </Typography>
                     </Grid>
@@ -233,82 +233,82 @@ function Page() {
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Construction Year:</strong> {item.constructionyear}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Surface:</strong> {item.surface} m²
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Rooms:</strong> {item.rooms}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Bedrooms:</strong> {item.bedromms || item.bedrooms || 'N/A'}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Bathrooms:</strong> {item.bathrooms || 'N/A'}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Floor:</strong> {item.floor}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Kitchen:</strong> {item.kitchen}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Furnished:</strong> {item.furnished}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Elevator:</strong> {item.elevator}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Parking:</strong> {item.parking}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Balcony:</strong> {item.balcony}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Pool:</strong> {item.pool}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Guard:</strong> {item.Guard}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Proprietary:</strong> {item.Proprietary}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Facade:</strong> {item.facade}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography>
+                    <Typography component="div">
                       <strong>Documents:</strong> {item.documents}
                     </Typography>
                   </Grid>

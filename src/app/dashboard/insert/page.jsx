@@ -126,10 +126,11 @@ const CreatePostForm = React.memo(function CreatePostForm() {
     }
 
     // Prepare data with proper types
+    // Note: prix must be a String according to the server/Prisma schema
     const submitData = {
       lat: Number(formData.lat),
       lon: Number(formData.lon),
-      prix: formData.prix,
+      prix: String(formData.prix), // Server expects prix as String, not Number
       comment: formData.comment,
       adress: formData.adress,
       ville: formData.ville,
@@ -140,6 +141,11 @@ const CreatePostForm = React.memo(function CreatePostForm() {
       img: formData.img || [],
     };
 
+    // Log data for debugging
+    console.log('Submitting post data:', submitData);
+    const payloadSize = JSON.stringify(submitData).length;
+    console.log(`Payload size: ${(payloadSize / 1024).toFixed(2)} KB`);
+
     try {
       const response = await fetch('https://realestat.vercel.app/api/posts', {
         method: 'POST',
@@ -149,7 +155,22 @@ const CreatePostForm = React.memo(function CreatePostForm() {
         body: JSON.stringify(submitData),
       });
 
-      const result = await response.json();
+      // Get response text first to handle any response type
+      const responseText = await response.text();
+      console.log('Server response status:', response.status);
+      console.log('Server response text:', responseText);
+
+      // Try to parse as JSON
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        // If response is not JSON, create error object
+        result = {
+          error: responseText || `Server error: ${response.status} ${response.statusText}`,
+          details: 'Response is not valid JSON'
+        };
+      }
 
       if (response.ok) {
         setResponse(result);
@@ -159,7 +180,8 @@ const CreatePostForm = React.memo(function CreatePostForm() {
         router.push(`/dashboard/detail/${result.id}`);
       } else {
         // Display actual error message from API
-        const errorMessage = result?.message || result?.error || 'Failed to create post';
+        console.error('API Error:', result);
+        const errorMessage = result?.message || result?.error || result?.details || `Server error (${response.status}): ${response.statusText}`;
         setErrors({ 
           submit: Array.isArray(result?.errors) 
             ? result.errors.join(', ') 
@@ -168,8 +190,9 @@ const CreatePostForm = React.memo(function CreatePostForm() {
         setLoading(false);
       }
     } catch (error) {
+      console.error('Network error:', error);
       setErrors({ 
-        submit: `An error occurred: ${error.message || 'Failed to create post'}` 
+        submit: `Network error: ${error.message || 'Failed to create post. Please check your connection.'}` 
       });
       setLoading(false);
     }
