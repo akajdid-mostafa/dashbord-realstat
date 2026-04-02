@@ -7,7 +7,7 @@ First, run the development server:
 ```bash
 npm run dev
 # or
-yarn dev
+dashboard realstat — a JavaScript-powered project with useful, real-world functionality.
 # or
 pnpm dev
 # or
