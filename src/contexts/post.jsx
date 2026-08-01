@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '@/lib/api';
 
 export const DataContext = createContext();
 
@@ -17,7 +18,7 @@ export const DataProvider = ({ children }) => {
   useEffect(()=>{
     const fetchCategorie=async()=>{
       try{
-        const response =await axios.get('https://realestat.vercel.app/api/categories')
+        const response =await axios.get(`${API_BASE_URL}/api/categories`)
         setCategories(response.data)
       }catch (error) {
         handleError(error);
@@ -30,7 +31,7 @@ export const DataProvider = ({ children }) => {
   useEffect(()=>{
 const fetchtype=async()=>{
   try{
-const response=await axios.get('https://realestat.vercel.app/api/types')
+const response=await axios.get(`${API_BASE_URL}/api/types`)
 setTypes(response.data)
   }catch(error){
  console.log('error')
@@ -41,7 +42,7 @@ fetchtype()
   const fetchData = async () => {
     setLoading(true); // Start loading
     try {
-      const response = await axios.get('https://realestat.vercel.app/api/posts');
+      const response = await axios.get(`${API_BASE_URL}/api/posts`);
       setData(response.data); // Set data on successful fetch
     } catch (err) {
       setError('Failed to fetch data'); // Handle errors
@@ -58,7 +59,7 @@ fetchtype()
     const fetchDeetail=async()=>{
       setLoading(true)
       try{
-        const response=await axios.get('https://realestat.vercel.app/api/details')
+        const response=await axios.get(`${API_BASE_URL}/api/details`)
         setDetail(response.data)
       }catch(error){
         handleError(error);
@@ -73,7 +74,7 @@ fetchtype()
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://realestat.vercel.app/api/DateReserve');
+        const response = await axios.get(`${API_BASE_URL}/api/DateReserve`);
         setOrders(response.data);
       } catch (error) {
         handleError(error);
@@ -102,7 +103,7 @@ useEffect(()=>{ fetchOrders();}
   const createData = async (newData) => {
     setLoading(true);
     try {
-      const response = await axios.post('https://realestat.vercel.app/api/posts', newData);
+      const response = await axios.post(`${API_BASE_URL}/api/posts`, newData);
       setData((prevData) => [...prevData, response.data]);
     } catch (error) {
       handleError(error);
@@ -115,7 +116,7 @@ useEffect(()=>{ fetchOrders();}
   const updateData = async (id, updatedData) => {
     setLoading(true);
     try {
-      const response = await axios.put(`https://realestat.vercel.app/api/posts/${id}`, updatedData);
+      const response = await axios.put(`${API_BASE_URL}/api/posts/${id}`, updatedData);
       setData((prevData) =>
         prevData.map((item) => (item.id === id ? response.data : item))
       );
@@ -130,7 +131,7 @@ useEffect(()=>{ fetchOrders();}
   const deleteData = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`https://realestat.vercel.app/api/posts/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/posts/${id}`);
       setData((prevData) => prevData.filter((item) => item.id !== id));
     } catch (error) {
       handleError(error);
@@ -143,7 +144,7 @@ useEffect(()=>{ fetchOrders();}
   const createOrder = async (newOrder) => {
     setLoading(true);
     try {
-      const response = await axios.post('https://realestat.vercel.app/api/DateReserve', newOrder);
+      const response = await axios.post(`${API_BASE_URL}/api/DateReserve`, newOrder);
       setOrders((prevOrders) => [...prevOrders, response.data]);
     } catch (error) {
       handleError(error);
@@ -156,7 +157,7 @@ useEffect(()=>{ fetchOrders();}
   const updateOrder = async (id, updatedOrder) => {
     setLoading(true);
     try {
-      const response = await axios.put(`https://realestat.vercel.app/api/DateReserve/${id}`, updatedOrder);
+      const response = await axios.put(`${API_BASE_URL}/api/DateReserve/${id}`, updatedOrder);
       setOrders((prevOrders) =>
         prevOrders.map((order) => (order.id === id ? response.data : order))
       );
@@ -171,7 +172,7 @@ useEffect(()=>{ fetchOrders();}
   const deleteOrder = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`https://realestat.vercel.app/api/DateReserve/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/DateReserve/${id}`);
       setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
     } catch (error) {
       handleError(error);

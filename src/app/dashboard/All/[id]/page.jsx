@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { TextField, Button, Typography, Container, Box, Alert, MenuItem, Select, InputLabel, FormControl, Grid, Card, CardMedia,CircularProgress  } from '@mui/material';
 import { DataContext } from '@/contexts/post';
+import { API_BASE_URL } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 const MyMap = dynamic(
   () => import('../../insert/MapComponent'),
@@ -161,7 +162,7 @@ const router=useRouter()
       // Try the combined endpoint first, fallback to separate calls
       let response;
       try {
-        response = await fetch(`https://realestat.vercel.app/api/postsDetails/${id}`, {
+        response = await fetch(`${API_BASE_URL}/api/postsDetails/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -175,7 +176,7 @@ const router=useRouter()
         }
       } catch (endpointError) {
         // If combined endpoint fails, update separately
-        const postResponse = await fetch(`https://realestat.vercel.app/api/posts/${id}`, {
+        const postResponse = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -190,7 +191,7 @@ const router=useRouter()
 
         // Update details if detailId exists (from filteredData)
         if (filteredData?.Detail?.id) {
-          const detailResponse = await fetch(`https://realestat.vercel.app/api/details/${filteredData.Detail.id}`, {
+          const detailResponse = await fetch(`${API_BASE_URL}/api/details/${filteredData.Detail.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -204,7 +205,7 @@ const router=useRouter()
           }
         } else {
           // Create new detail if it doesn't exist
-          const detailResponse = await fetch(`https://realestat.vercel.app/api/details`, {
+          const detailResponse = await fetch(`${API_BASE_URL}/api/details`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

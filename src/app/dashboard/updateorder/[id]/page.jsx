@@ -5,6 +5,7 @@ import { TextField, Button, Container, Grid, Typography,CircularProgress } from 
 import { useRouter } from "next/navigation";
 import { DataContext } from "@/contexts/post";
 import { IoReloadSharp } from "react-icons/io5";
+import { API_BASE_URL } from "@/lib/api";
 export default function MyComponent() {
   const params = useParams();
   const { order ,fetchOrders} = useContext(DataContext);
@@ -44,7 +45,7 @@ export default function MyComponent() {
     setLoading(true); // Corrected here
 
     try {
-      const response = await fetch(`https://realestat.vercel.app/api/DateReserve/${params.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/DateReserve/${params.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

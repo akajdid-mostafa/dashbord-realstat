@@ -4,6 +4,7 @@ import { TextField, Button, Box, Typography, Container, Alert, CircularProgress,
 import { styled } from '@mui/system';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
+import { API_BASE_URL } from '@/lib/api';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   maxWidth: 'xs',
@@ -47,7 +48,7 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://realestat.vercel.app/api/login', {
+      const response = await fetch(`${API_BASE_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

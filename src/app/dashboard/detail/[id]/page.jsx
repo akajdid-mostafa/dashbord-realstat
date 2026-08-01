@@ -2,6 +2,7 @@
 import React, { useState,useContext } from "react";
 import { useParams } from "next/navigation";
 import { DataContext } from '@/contexts/post';
+import { API_BASE_URL } from '@/lib/api';
 import {
   Grid,
   TextField,
@@ -58,7 +59,7 @@ const DetailForm = () => {
     e.preventDefault();
     setLoding(true)
     try {
-      const response = await fetch("https://realestat.vercel.app/api/details", {
+      const response = await fetch(`${API_BASE_URL}/api/details`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DataContext } from '@/contexts/post';
+import { API_BASE_URL } from '@/lib/api';
 import OrderDetails from './dashboard/integrations/OrderDetails'; // Adjust the path if necessary
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,7 +36,7 @@ export function OrderActions({ orderId, onDeleteSuccess }: OrderActionsProps): R
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`https://realestat.vercel.app/api/DateReserve/${orderId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/DateReserve/${orderId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { TextField, Button, Typography, Box, Alert, MenuItem, Select, InputLabel, FormControl, Grid, Card, CardMedia ,CircularProgress} from '@mui/material';
 import dynamic from 'next/dynamic';
 import { GrLinkNext } from "react-icons/gr";
+import { API_BASE_URL } from '@/lib/api';
 import imageCompression from 'browser-image-compression';
 const MyMap = dynamic(
   () => import('./MapComponent'),
@@ -147,7 +148,7 @@ const CreatePostForm = React.memo(function CreatePostForm() {
     console.log(`Payload size: ${(payloadSize / 1024).toFixed(2)} KB`);
 
     try {
-      const response = await fetch('https://realestat.vercel.app/api/posts', {
+      const response = await fetch(`${API_BASE_URL}/api/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

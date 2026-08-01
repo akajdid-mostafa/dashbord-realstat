@@ -2,6 +2,7 @@
 import React, { useState ,useContext,useEffect} from "react";
 import { TextField, Button, Box, Select, MenuItem, InputLabel } from "@mui/material";
 import { DataContext } from "@/contexts/post";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function Update({ detailId, dataId }) {
   const [formData, setFormData] = useState({
@@ -63,7 +64,7 @@ const {detail}=useContext(DataContext)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://realestat.vercel.app/api/details/${detailId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/details/${detailId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

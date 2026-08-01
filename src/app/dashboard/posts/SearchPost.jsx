@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button, TextField, Typography } from '@mui/material';
+import { API_BASE_URL } from '@/lib/api';
 
 const SearchPost = () => {
   const [searchId, setSearchId] = useState('');
@@ -19,7 +20,7 @@ const SearchPost = () => {
     setError(null);
 
     try {
-      const response = await fetch(`https://realestat.vercel.app/api/posts/?id=${searchId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/posts/?id=${searchId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         mode:"no-cors"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, CircularProgress } from '@mui/material';
 import { DataContext } from '@/contexts/post';
+import { API_BASE_URL } from '@/lib/api';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/navigation';
@@ -52,7 +53,7 @@ const router=useRouter()
         dateFine: newCustomer.dateFine ? new Date(newCustomer.dateFine).toISOString() : '',
       };
 
-      const response = await fetch('https://realestat.vercel.app/api/DateReserve', {
+      const response = await fetch(`${API_BASE_URL}/api/DateReserve`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
