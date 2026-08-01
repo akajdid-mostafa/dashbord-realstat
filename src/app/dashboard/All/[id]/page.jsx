@@ -76,6 +76,9 @@ const router=useRouter()
         surface:filteredData.Detail?.surface,
         rooms:filteredData.Detail?.rooms,
         bedrooms: filteredData.Detail?.bedromms || 0, // Map bedromms (API) to bedrooms (form)
+        livingrooms: filteredData.Detail?.livingrooms || '',
+        kitchen: filteredData.Detail?.kitchen || '',
+        bathrooms: filteredData.Detail?.bathrooms ?? 0,
         furnished:filteredData.Detail?.furnished,
         floor:filteredData.Detail?.floor,
         elevator:filteredData.Detail?.elevator,
@@ -111,7 +114,7 @@ const router=useRouter()
     .then(base64Images => {
       setFormData(prevData => ({
         ...prevData,
-        img: base64Images
+        img: [...(prevData.img || []), ...base64Images]
       }));
     })
     .catch(error => console.error('Error converting images:', error));

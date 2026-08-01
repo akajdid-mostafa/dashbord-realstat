@@ -81,7 +81,7 @@ const UpdatePage = () => {
     .then(base64Images => {
       setFormData(prevData => ({
         ...prevData,
-        img: base64Images
+        img: [...(prevData.img || []), ...base64Images]
       }));
     })
     .catch(error => console.error('Error converting images:', error));
