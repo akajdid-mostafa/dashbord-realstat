@@ -97,8 +97,8 @@ export function CompaniesFilters(): React.JSX.Element {
         <MenuItem value="">
           <em>All Categories</em>
         </MenuItem>
-        <MenuItem value="1">Vente</MenuItem>
-        <MenuItem value="2">Location</MenuItem>
+        <MenuItem value="1">Location</MenuItem>
+        <MenuItem value="2">Vente</MenuItem>
         {/* Add more categories if needed */}
       </Select>
 
@@ -117,6 +117,13 @@ export function CompaniesFilters(): React.JSX.Element {
               </TableRow>
             </TableHead>
             <TableBody>
+              {paginatedData.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} align="center">
+                    No reservations yet.
+                  </TableCell>
+                </TableRow>
+              )}
               {paginatedData.map((order: Order) => (
                 <TableRow key={order.id}>
                   <TableCell component="th" scope="row">

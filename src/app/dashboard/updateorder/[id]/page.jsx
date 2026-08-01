@@ -10,6 +10,7 @@ export default function MyComponent() {
   const params = useParams();
   const { order ,fetchOrders} = useContext(DataContext);
   const [loading, setLoading] = useState(false); // Corrected here
+  const [errorMessage, setErrorMessage] = useState('');
   const [inputData, setInputData] = useState({
     dateDebut: "",
     dateFine: "",
@@ -43,6 +44,7 @@ export default function MyComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Corrected here
+    setErrorMessage('');
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/DateReserve/${params.id}`, {
@@ -63,6 +65,7 @@ export default function MyComponent() {
       router.push("/dashboard/orders");
     } catch (error) {
       console.error("Error updating data:", error);
+      setErrorMessage('Failed to update the reservation. Please try again.');
     }
     setLoading(false); // Corrected here
   };
@@ -124,6 +127,13 @@ export default function MyComponent() {
               onChange={handleChange}
             />
           </Grid>
+          {errorMessage && (
+            <Grid item xs={12}>
+              <Typography variant="body2" color="error" align="center">
+                {errorMessage}
+              </Typography>
+            </Grid>
+          )}
           <Grid item xs={12}>
             <Button type="submit" fullWidth variant="contained" color="primary" disabled={loading}>
               

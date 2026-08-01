@@ -29,15 +29,15 @@ export default function Page() {
   return (
     <StyledGrid container spacing={3}>
       <CardComponent>
-        <Budget diff={12} trend="up" sx={{ height: '100%' }} value="$24k" />
+        <Budget trend="up" sx={{ height: '100%' }} />
       </CardComponent>
 
       <CardComponent>
-        <TotalCustomers diff={16} trend="down" sx={{ height: '100%' }} value="1.6k" />
+        <TotalCustomers sx={{ height: '100%' }} />
       </CardComponent>
 
       <CardComponent>
-        <TotalProfit sx={{ height: '100%' }} value="$15k" />
+        <TotalProfit sx={{ height: '100%' }} />
       </CardComponent>
 
       <StyledGrid xs={12}>

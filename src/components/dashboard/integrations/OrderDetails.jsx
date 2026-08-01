@@ -90,9 +90,9 @@ const OrderDetails = ({ orderId }) => {
                       <Typography variant="body1">
                         <strong>Post Category:</strong>
                         {item.post?.categoryId === 1 ? (
-                          <Chip label="Vente" color="primary" />
+                          <Chip label="Location" color="primary" />
                         ) : item.post?.categoryId === 2 ? (
-                          <Chip label="Location" color="secondary" />
+                          <Chip label="Vente" color="secondary" />
                         ) : (
                           <Chip label="Other" />
                         )}

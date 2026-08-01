@@ -21,8 +21,8 @@ const IconContainer = styled(Stack)(({ theme }) => ({
 
 export function TotalProfit({ sx }) {
   const { order } = React.useContext(DataContext);
-  const filteredOrders = order?.filter((item) => item?.post?.categoryId === 1) || [];
-  const filteredLocation = order?.filter((item) => item?.post?.categoryId === 2) || [];
+  const filteredLocation = order?.filter((item) => item?.post?.categoryId === 1) || [];
+  const filteredVente = order?.filter((item) => item?.post?.categoryId === 2) || [];
 
   return (
     <StyledCard sx={sx} >
@@ -30,9 +30,9 @@ export function TotalProfit({ sx }) {
         <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={2}>
          
           <Stack spacing={1}>
-            <Typography variant="h4">Ordres</Typography>
-            <Typography variant="h6">{filteredOrders.length} Vente</Typography>
+            <Typography variant="h4">Reservations</Typography>
             <Typography variant="h6">{filteredLocation.length} Location</Typography>
+            <Typography variant="h6">{filteredVente.length} Vente</Typography>
           </Stack>
            <IconContainer>
             <ShoppingCartIcon fontSize="large" sx={{ color: 'primary.main' }} /> {/* Icon with a larger size */}

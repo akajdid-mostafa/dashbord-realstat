@@ -41,10 +41,10 @@ export function TotalCustomers({ sx }) {
         <Stack spacing={2}>
           <Stack direction="row" sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }} spacing={3}>
             <Stack spacing={1}>
-              <Typography variant="h4">Profits:</Typography>
-              <Typography>- {order?.length || 0} Orders</Typography>
+              <Typography variant="h4">Reservations</Typography>
+              <Typography>- {order?.length || 0} total</Typography>
               <Typography sx={{ display: 'flex' }}>
-                -Profits: <TotalProfitsTypography>{formattedSum}</TotalProfitsTypography>
+                - Reservation value: <TotalProfitsTypography>{formattedSum}</TotalProfitsTypography>
               </Typography>
             </Stack>
             <StyledAvatar>

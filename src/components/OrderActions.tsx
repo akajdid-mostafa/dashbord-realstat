@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
 import { DataContext } from '@/contexts/post';
 import { API_BASE_URL } from '@/lib/api';
 import OrderDetails from './dashboard/integrations/OrderDetails'; // Adjust the path if necessary
@@ -21,6 +22,7 @@ interface OrderActionsProps {
 export function OrderActions({ orderId, onDeleteSuccess }: OrderActionsProps): React.JSX.Element {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
   const { fetchOrders } = useContext(DataContext);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const router = useRouter();
@@ -35,6 +37,7 @@ export function OrderActions({ orderId, onDeleteSuccess }: OrderActionsProps): R
 
   const handleDelete = async () => {
     setIsDeleting(true);
+    setDeleteError('');
     try {
       const response = await fetch(`${API_BASE_URL}/api/DateReserve/${orderId}`, {
         method: 'DELETE',
@@ -48,11 +51,12 @@ export function OrderActions({ orderId, onDeleteSuccess }: OrderActionsProps): R
       }
       await fetchOrders();
       onDeleteSuccess(); // Call the callback to refresh the list if necessary
+      setConfirmDeleteOpen(false);
     } catch (err) {
       console.log("Error:", err);
+      setDeleteError('Failed to delete the reservation. Please try again.');
     } finally {
       setIsDeleting(false);
-      setConfirmDeleteOpen(false);
     }
   };
 
@@ -99,6 +103,11 @@ export function OrderActions({ orderId, onDeleteSuccess }: OrderActionsProps): R
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
           Are you sure you want to delete this order?
+          {deleteError && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              {deleteError}
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseConfirmation} color="primary">

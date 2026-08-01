@@ -34,8 +34,8 @@ const TotalTypography = styled(Typography)(({ theme }) => ({
 
 export function Budget({ trend, sx }: BudgetProps): React.JSX.Element {
   const { data } = React.useContext(DataContext);
-  const filteredOrders = data?.filter((item: any) => item?.categoryId === 1) || [];
-  const filteredLocation = data?.filter((item: any) => item?.categoryId === 2) || [];
+  const filteredLocation = data?.filter((item: any) => item?.categoryId === 1) || [];
+  const filteredVente = data?.filter((item: any) => item?.categoryId === 2) || [];
 
   return (
     <StyledCard trend={trend} sx={sx} >
@@ -45,8 +45,8 @@ export function Budget({ trend, sx }: BudgetProps): React.JSX.Element {
             <Stack spacing={1}>
               <TotalTypography variant="h4">Total:</TotalTypography>
               <Typography>{data?.length || 0} Posts</Typography>
-              <Typography>{filteredOrders?.length || 0} Vente</Typography>
               <Typography>{filteredLocation?.length || 0} Location</Typography>
+              <Typography>{filteredVente?.length || 0} Vente</Typography>
             </Stack>
             <StyledAvatar>
               <CurrencyDollarIcon />

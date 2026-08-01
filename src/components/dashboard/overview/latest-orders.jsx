@@ -61,10 +61,10 @@ export function LatestOrders({ sx }) {
                   {order?.post ? (
                     <>
                       {order.post.categoryId === 1 && (
-                        <Chip label="Vente" color="warning" />
+                        <Chip label="Location" color="success" />
                       )}
                       {order.post.categoryId === 2 && (
-                        <Chip label="Location" color="success" />
+                        <Chip label="Vente" color="warning" />
                       )}
                     </>
                   ) : (

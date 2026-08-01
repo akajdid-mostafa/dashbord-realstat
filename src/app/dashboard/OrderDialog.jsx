@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, CircularProgress } from '@mui/material';
+import { Select, MenuItem, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, CircularProgress, Typography } from '@mui/material';
 import { DataContext } from '@/contexts/post';
 import { API_BASE_URL } from '@/lib/api';
 import DatePicker from 'react-datepicker';
@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { useRouter } from 'next/navigation';
 const AddOrderDialog = React.memo(({ open, onClose, selectedPostId, category }) => {
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [newCustomer, setNewCustomer] = useState({
     fullName: '',
     dateDebut: '',
@@ -46,6 +47,7 @@ const router=useRouter()
 
   const handleSave = async () => {
     setLoading(true);
+    setErrorMessage('');
     try {
       const formattedCustomer = {
         ...newCustomer,
@@ -75,6 +77,7 @@ const router=useRouter()
       
     } catch (error) {
       console.error('Error saving order:', error);
+      setErrorMessage('Failed to save the order. Please check the details and try again.');
     } finally {
       setLoading(false); // Ensure loading is stopped
     }
@@ -193,6 +196,11 @@ const router=useRouter()
             </MenuItem>
           ))}
         </Select>
+        {errorMessage && (
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            {errorMessage}
+          </Typography>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
