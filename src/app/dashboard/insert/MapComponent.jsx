@@ -36,7 +36,7 @@ const MyMap = ({ setFormData, searchCoordinates }) => {
     }));
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY || 'af85006391dc49f8b68717cb9c1d0e60';
+      const apiKey = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY;
       if (!apiKey) {
         console.warn('OpenCageData API key is not set. Location selected but address will need to be entered manually.');
         return;
@@ -98,7 +98,7 @@ const MyMap = ({ setFormData, searchCoordinates }) => {
     }
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY || 'af85006391dc49f8b68717cb9c1d0e60';
+      const apiKey = process.env.NEXT_PUBLIC_OPENCAGE_API_KEY;
       if (!apiKey) {
         setErrors({ search: 'Geocoding API key is not configured. Please select location on map instead.' });
         return;
