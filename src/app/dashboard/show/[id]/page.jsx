@@ -2,7 +2,7 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "next/navigation";
 import { DataContext } from "@/contexts/post";
-import { API_BASE_URL } from "@/lib/api";
+import { API_BASE_URL, apiFetch } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import {
   Grid,
@@ -51,7 +51,7 @@ function Page() {
   // Handle the delete action
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/posts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

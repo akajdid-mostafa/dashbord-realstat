@@ -1,7 +1,21 @@
 "use client";
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_BASE_URL } from '@/lib/api';
+import { API_BASE_URL, authHeaders } from '@/lib/api';
+
+let axiosAuthRegistered = false;
+function registerAxiosAuth() {
+  if (axiosAuthRegistered) return;
+  axiosAuthRegistered = true;
+  axios.interceptors.request.use((config) => {
+    const auth = authHeaders();
+    if (auth.Authorization) {
+      config.headers.Authorization = auth.Authorization;
+    }
+    return config;
+  });
+}
+registerAxiosAuth();
 
 export const DataContext = createContext();
 

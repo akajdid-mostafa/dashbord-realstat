@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
 import { TextField, Button, Typography, Container, Box, Alert, MenuItem, Select, InputLabel, FormControl, Grid, Card, CardMedia } from '@mui/material';
 import { DataContext } from '@/contexts/post';
-import { API_BASE_URL } from '@/lib/api';
+import { API_BASE_URL, apiFetch } from '@/lib/api';
 const MyMap = dynamic(
   () => import('../../insert/MapComponent'),
   { 
@@ -96,7 +96,7 @@ const UpdatePage = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

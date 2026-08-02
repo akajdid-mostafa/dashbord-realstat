@@ -38,6 +38,7 @@
     "apexcharts": "3.49.2",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.5",
+    "bcryptjs": "^3.0.2",
     "browser-image-compression": "^2.0.2",
     "cloudinary": "^2.4.0",
     "cookie": "^0.6.0",

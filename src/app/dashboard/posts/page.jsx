@@ -10,7 +10,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { API_BASE_URL } from '@/lib/api';
+import { API_BASE_URL, apiFetch } from '@/lib/api';
 import InfoIcon from '@mui/icons-material/Info';
 import { FaPlus } from "react-icons/fa";
 import Link from 'next/link';
@@ -81,7 +81,7 @@ const DataTable =React.memo( () => {
       // Set loading to true at the start
       setLoading(true);
       
-      const response = await fetch(`${API_BASE_URL}/api/posts/${id}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/posts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
