@@ -1,9 +1,142 @@
 import { NextResponse } from 'next/server';
 import { Prisma, CategoryName, Status, TypeName } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
+import { uploadImages, destroyImagesByUrl } from '@/lib/cloudinary';
+import { parseJsonBody, parseJsonField } from '@/lib/validation';
 
 function publicReservations(reserves: { id: number }[] | undefined) {
   return (reserves ?? []).map((reserve) => ({ id: reserve.id }));
+}
+
+async function destroyUploadedOnFailure(imageUrls: string[]) {
+  try {
+    await destroyImagesByUrl(imageUrls);
+  } catch (error) {
+    console.error('Cleanup destroy failed:', error);
+  }
+}
+
+export async function POST(req: Request) {
+  const body = (await parseJsonBody(req)) as Record<string, unknown> | null;
+  if (!body) {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+  const {
+    lat,
+    lon,
+    prix,
+    adress,
+    ville,
+    status,
+    categoryId,
+    typeId,
+    Detail,
+    img,
+    youtub,
+    comment,
+  } = body;
+
+  let parsedDetail: Record<string, unknown> | null = null;
+  if (Detail) {
+    const detail = parseJsonField(Detail);
+    if (detail === null || typeof detail !== 'object') {
+      return NextResponse.json({ error: 'Invalid Detail format' }, { status: 400 });
+    }
+    parsedDetail = detail as Record<string, unknown>;
+  }
+
+  const missingFields: string[] = [];
+  if (!img || !Array.isArray(img) || (img as unknown[]).length === 0) missingFields.push('img');
+  if (!lat) missingFields.push('lat');
+  if (!lon) missingFields.push('lon');
+  if (!prix) missingFields.push('prix');
+  if (!adress) missingFields.push('adress');
+  if (!ville) missingFields.push('ville');
+  if (!status) missingFields.push('status');
+  if (!categoryId) missingFields.push('categoryId');
+  if (!typeId) missingFields.push('typeId');
+
+  if (missingFields.length > 0) {
+    return NextResponse.json({ error: 'Missing required fields', fields: missingFields }, { status: 400 });
+  }
+
+  const category = await prisma.category.findUnique({
+    where: { id: parseInt(categoryId as string, 10) },
+    select: { name: true },
+  });
+  const type = await prisma.type.findUnique({
+    where: { id: parseInt(typeId as string, 10) },
+    select: { type: true },
+  });
+
+  if (!category || !type) {
+    return NextResponse.json({ error: 'Invalid categoryId or typeId' }, { status: 400 });
+  }
+
+  const imageUrls = (img as string[]).filter((image): image is string => typeof image === 'string');
+
+  let uploadedImages: string[] = [];
+  try {
+    uploadedImages = await uploadImages(imageUrls);
+  } catch (error) {
+    await destroyUploadedOnFailure(uploadedImages);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Cloudinary upload failed:', errorMessage);
+    return NextResponse.json({ error: 'Error creating post', details: errorMessage }, { status: 500 });
+  }
+
+  try {
+    const post = await prisma.post.create({
+      data: {
+        img: uploadedImages,
+        lat: parseFloat(lat as string),
+        lon: parseFloat(lon as string),
+        prix: prix as string,
+        adress: adress as string,
+        ville: ville as string,
+        status: status as Status,
+        title: '',
+        youtub: youtub as string | undefined,
+        comment: comment as string | undefined,
+        category: { connect: { id: parseInt(categoryId as string, 10) } },
+        type: { connect: { id: parseInt(typeId as string, 10) } },
+      },
+      include: {
+        category: true,
+        type: true,
+      },
+    });
+
+    let createdDetail = null;
+    if (parsedDetail) {
+      createdDetail = await prisma.detail.create({
+        data: {
+          ...parsedDetail,
+          postId: post.id,
+        },
+      });
+    }
+
+    const updatedTitle = `${post.type?.type ?? ''} a ${post.category?.name ?? ''} # ${post.id} ${createdDetail?.surface ? `/ surface: ${createdDetail.surface}m ` : ''}`;
+
+    const updatedPost = await prisma.post.update({
+      where: { id: post.id },
+      data: { title: updatedTitle },
+      include: {
+        category: true,
+        type: true,
+        Detail: true,
+      },
+    });
+
+    return NextResponse.json({ id: updatedPost.id, post: updatedPost }, { status: 201 });
+  } catch (error: unknown) {
+    await destroyUploadedOnFailure(uploadedImages);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Error creating post:', errorMessage);
+    return NextResponse.json({ error: 'Error creating post', details: errorMessage }, { status: 500 });
+  }
 }
 
 export async function GET(req: Request) {

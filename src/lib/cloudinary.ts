@@ -26,3 +26,14 @@ export function uploadImages(imageUrls: string[], folder: string = IMAGE_FOLDER)
 export function destroyImage(publicId: string): Promise<unknown> {
   return cloudinary.uploader.destroy(publicId);
 }
+
+export function destroyImagesByUrl(imageUrls: string[]): Promise<void> {
+  return Promise.all(
+    imageUrls
+      .map((url) => publicIdFromUrl(url))
+      .filter((publicId): publicId is string => Boolean(publicId))
+      .map((publicId) =>
+        cloudinary.uploader.destroy(publicId).catch(() => undefined)
+      )
+  ).then(() => undefined);
+}
