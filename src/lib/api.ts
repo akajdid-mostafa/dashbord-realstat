@@ -2,9 +2,15 @@ function normalizeUrl(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
-export const API_BASE_URL: string = normalizeUrl(
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
-);
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+if (!apiUrl) {
+  throw new Error(
+    "NEXT_PUBLIC_API_URL is required: the dashboard must target its own backend origin. " +
+      "Refusing to fall back to the legacy backend.",
+  );
+}
+
+export const API_BASE_URL: string = normalizeUrl(apiUrl);
 
 function getToken(): string | undefined {
   if (typeof document === "undefined") return undefined;
