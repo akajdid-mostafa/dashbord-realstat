@@ -1,0 +1,116 @@
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  phone    String?
+  name     String
+}
+
+model Post {
+  id          Int          @id @default(autoincrement())
+  img         Json[]
+  lat         Float
+  lon         Float
+  prix        String
+  adress      String
+  ville       String
+  status      Status
+  title       String
+  comment     String?
+  youtub      String?
+  categoryId  Int?
+  typeId      Int?
+  Detail      Detail?
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  type        Type?        @relation(fields: [typeId], references: [id])
+  DateReserve DateReserve[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Partennaire {
+  id   Int    @id @default(autoincrement())
+  name String
+  logo String
+}
+
+model Category {
+  id    Int          @id @default(autoincrement())
+  name  CategoryName
+  posts Post[]
+}
+
+model Type {
+  id    Int      @id @default(autoincrement())
+  type  TypeName
+  posts Post[]
+}
+
+model Detail {
+  id               Int     @id @default(autoincrement())
+  constructionyear String?
+  surface          String?
+  rooms            Int?
+  bedromms         Int?
+  livingrooms      String?
+  kitchen          String?
+  bathrooms        Int?
+  furnished        String?
+  floor            String?        
+  elevator         String?
+  parking          String?
+  balcony          String?
+  pool             String?
+  facade           String?
+  documents        String?
+  postId           Int     @unique
+  post             Post    @relation(fields: [postId], references: [id])
+  Guard            String?  // New column
+  Proprietary      String?  // New column
+}
+
+model DateReserve {
+  id        Int       @id @default(autoincrement())
+  dateDebut DateTime?
+  dateFine  DateTime?
+  fullName  String
+  CIN       String
+  price     Float
+  postId    Int?     
+  post      Post?     @relation(fields: [postId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Status {
+  available
+  unavailable
+  taken
+}
+
+enum CategoryName {
+  Location
+  Vente
+}
+
+enum TypeName {
+  Bureau
+  Land
+  Home
+  Park
+  Appartement
+  Maisons
+  villasRiad
+  Bureaux
+  Local
+  Terrains
+}
