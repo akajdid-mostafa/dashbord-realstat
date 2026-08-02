@@ -1,6 +1,8 @@
 export const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
+  'https://realestat-eight.vercel.app',
+  'https://dashbord-realstat-chi.vercel.app',
 ] as const;
 
 export type AllowedOrigin = (typeof allowedOrigins)[number];
